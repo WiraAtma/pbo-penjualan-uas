@@ -25,4 +25,11 @@ public class MainGUI {
     public static void main(String[] args) {
         SwingUtilities.invokeLater(() -> new MainGUI().start());
     }
+
+
+    // --- UI Design ----
+    // [Load Product] [Load Sales]
+    // | Tabel Product |
+    // | Tabel Sales |
+    //         Total Sales : Rp. xxxx
 }

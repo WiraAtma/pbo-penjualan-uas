@@ -1,15 +1,14 @@
 package Models;
 
-public class Product {
-    // buat variable disini
+public class Sale {
     private int id;
+    // lanjut
 
     // buat constructur
-    public Product(int id) { // tambah lainnya
+    public Sale(int id) { // tambah lainnya
         // isi validate disini
     }
 
-    // get
     public int getId() {
         return id;
     }
