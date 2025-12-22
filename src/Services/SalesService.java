@@ -30,8 +30,8 @@ public class SalesService {
         return list;
     }
 
-    public void appendSale(Sale sale) {
-        // Buat untuk menambahkan sale bisa pakai BufferedWriter dia akan menambahkan di akhir file tidak menghapus data lama
+    public void addSale(Sale sale) {
+        // Buat untuk menambahkan sale bisa pakai BufferedWriter dia akan menambahkan di akhir file tidak menghapus data lama dia akan mengappend sale
     }
 
     // menampilkan id secara berurutan
