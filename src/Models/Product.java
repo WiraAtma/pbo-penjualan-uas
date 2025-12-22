@@ -1,23 +1,44 @@
 package Models;
 
 public class Product {
-    // buat variable disini
     private int id;
+    private String kode;
+    private String nama;
+    private double harga;
+    private int stok;
 
-    // buat constructur
-    public Product(int id) { // tambah lainnya
-        // isi validate disini
+    // constructor
+    public Product(int id, String kode, String nama, double harga, int stok) {
+        this.id = id;
+        this.kode = kode;
+        this.nama = nama;
+        this.harga = harga;
+        this.stok = stok;
     }
 
-    // get
+    // getter
     public int getId() {
         return id;
     }
 
-    // lanjutkan
+    public String getKode() {
+        return kode;
+    }
 
-    // buat return untuk ke file
+    public String getNama() {
+        return nama;
+    }
+
+    public double getHarga() {
+        return harga;
+    }
+
+    public int getStok() {
+        return stok;
+    }
+
+    // untuk ke file / atau ke tabel
     public String toFileString() {
-        return ""; // isi disini contoh : id + "," + kode + ...
+        return id + "," + kode + "," + nama + "," + harga + "," + stok;
     }
 }
