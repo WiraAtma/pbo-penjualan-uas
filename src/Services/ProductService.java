@@ -107,13 +107,8 @@ public class ProductService {
     // GENERATE ID AMAN (ID TERBESAR + 1)
     // =========================
     public int generateNextId(List<Product> products) {
-        int maxId = 0;
-
-        for (Product p : products) {
-            if (p.getId() > maxId) {
-                maxId = p.getId();
-            }
-        }
-        return maxId + 1;
+        return products.isEmpty()
+                ? 1
+                : products.get(products.size() - 1).getId() + 1;
     }
 }
