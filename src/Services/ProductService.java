@@ -33,13 +33,13 @@ public class ProductService {
 
     // ADD
 
-    public void appendProduct(Product p) {
-        // Buat untuk menambahkan product bisa pakai BufferedWriter dia akan menambahkan di akhir file tidak menghapus data lama
+    public void addProduct(Product p) {
+        // Buat untuk menambahkan product bisa pakai BufferedWriter dia akan menambahkan di akhir file tidak menghapus data lama dia akan melakukan append
     }
 
     // Delete
-    public void rewriteAll(List<Product> products) {
-        // Menulis ulang seluruh isi file berdasarkan list produk terbaru.
+    public void deleteProduct(List<Product> products) {
+        // Menulis ulang seluruh isi file berdasarkan list produk terbaru. dia akan melakukan rewrite all
     }
 
     // menampilkan id secara berurutan
