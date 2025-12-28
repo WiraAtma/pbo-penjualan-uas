@@ -67,7 +67,21 @@ public class SalesService {
     }
 
     public void addSale(Sale sale) {
-        // Buat untuk menambahkan sale bisa pakai BufferedWriter dia akan menambahkan di akhir file tidak menghapus data lama dia akan mengappend sale
+        try (BufferedWriter bw = new BufferedWriter(new FileWriter("sales.txt", true))) {
+
+            // format data: id,productName,qty,price,total
+            bw.write(
+                    sale.getId() + "," +
+                            sale.getProductName() + "," +
+                            sale.getQty() + "," +
+                            sale.getPrice() + "," +
+                            sale.getTotal()
+            );
+            bw.newLine();
+
+        } catch (IOException e) {
+            System.out.println("Gagal Menambahkan data sale");
+        }
     }
 
     // menampilkan id secara berurutan
