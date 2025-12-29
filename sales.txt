@@ -2,3 +2,4 @@
 1,Indomie Goreng,2,3500,7000
 2,Teh Botol,1,5000,5000
 3,Indomie Goreng,20,3500.0,70000.0
+4,Sosis Kanzler,6,8000.0,48000.0

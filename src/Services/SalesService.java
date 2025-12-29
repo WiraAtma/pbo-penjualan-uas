@@ -47,16 +47,13 @@ public class SalesService {
                 }
 
                 // pisahkan data dengan koma
-                String[] data = line.split(",");
-
-                int id = Integer.parseInt(data[0].trim());
-                String productName = data[1].trim();
-                int qty = Integer.parseInt(data[2].trim());
-                double price = Double.parseDouble(data[3].trim());
-                double total = Double.parseDouble(data[4].trim());
-
-                Sale sale = new Sale(id, productName, qty, price, total);
-                list.add(sale);
+                String[] d = line.split(",");
+                list.add(new Sale(
+                        Integer.parseInt(d[0]),
+                        d[1],
+                        Integer.parseInt(d[2]),
+                        Double.parseDouble(d[3])
+                ));
             }
 
         } catch (IOException | NumberFormatException e) {

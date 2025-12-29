@@ -6,6 +6,7 @@ import Services.ProductService;
 import java.util.List;
 
 public class ProductController {
+
     private ProductService service = new ProductService();
 
     public List<Product> getAllProducts() {
@@ -13,11 +14,20 @@ public class ProductController {
     }
 
     public void addProduct(String kode, String nama, double harga, int stok) {
-        // nambahin produk baru sesuai input user pake generateNextId dari service buat id
-        // pakai append di bagian service
+        List<Product> products = service.loadProducts();
+        int id = service.generateNextId(products);
+
+        Product newProduct = new Product(id, kode, nama, harga, stok);
+        service.addProduct(newProduct);
     }
 
     public void deleteProductByIndex(int index) {
-        // di load dulu productnya terus remove sesuai index / angka di panel nantinya
+        List<Product> products = service.loadProducts();
+
+        if (index >= 0 && index < products.size()) {
+            products.remove(index);
+            service.deleteProduct(products);
+        }
     }
+
 }
