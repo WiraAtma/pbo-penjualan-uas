@@ -15,17 +15,17 @@ public class SalesService {
     }
 
     private void createFileIfNotExists() {
-        File file = new File("sales.txt");
+        File file = new File(FILE_NAME);
 
         if (!file.exists()) {
             try {
-                boolean created = file.createNewFile();
-                if (created) {
-                    System.out.println("File sales.txt berhasil dibuat.");
-                }
+                BufferedWriter writer = new BufferedWriter(new FileWriter(file));
+                writer.write(HEADER);
+                writer.newLine();
+                writer.close();
+
             } catch (IOException e) {
-                System.out.println("Gagal membuat file sales.txt");
-                e.printStackTrace();
+                System.out.println("Gagal membuat file sales.txt : " + e.getMessage());
             }
         } else {
             System.out.println("File sales.txt sudah ada, menggunakan file yang ada.");
@@ -36,13 +36,13 @@ public class SalesService {
     public List<Sale> loadSales() {
         List<Sale> list = new ArrayList<>();
 
-        try (BufferedReader br = new BufferedReader(new FileReader("sales.txt"))) {
+        try (BufferedReader br = new BufferedReader(new FileReader(FILE_NAME))) {
             String line;
 
             while ((line = br.readLine()) != null) {
 
                 // pisahkan data dengan #
-                if (line.startsWith("#")) {
+                if (line.startsWith("#")|| line.trim().isEmpty()) {
                     continue;
                 }
 
@@ -67,15 +67,11 @@ public class SalesService {
     }
 
     public void addSale(Sale sale) {
-        try (BufferedWriter bw = new BufferedWriter(new FileWriter("sales.txt", true))) {
+        try (BufferedWriter bw = new BufferedWriter(new FileWriter(FILE_NAME, true))) {
 
             // format data: id,productName,qty,price,total
             bw.write(
-                    sale.getId() + "," +
-                            sale.getProductName() + "," +
-                            sale.getQty() + "," +
-                            sale.getPrice() + "," +
-                            sale.getTotal()
+                    sale.toFileString()
             );
             bw.newLine();
 
