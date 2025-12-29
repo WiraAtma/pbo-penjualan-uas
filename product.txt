@@ -1,5 +1,51 @@
 #id,kode,nama,harga,stok
 1,P001,Indomie Goreng,3500.0,30
-2,P002,Teh Botol,5000.0,30
-4,P004,Aqua Galon,20000.0,4
+2,P002,Indomie Soto,3500.0,25
+3,P003,Indomie Ayam Bawang,3500.0,20
 5,P005,Sosis Kanzler,8000.0,4
+6,P006,Susu Jahe,3000.0,33
+7,P007,Teh Botol Sosro,5000.0,40
+8,P008,Good Day Cappuccino,7000.0,10
+9,P009,Kopi Kapal Api,4500.0,22
+10,P010,Gula Pasir 1kg,14000.0,10
+11,P011,Beras Ramos 5kg,68000.0,6
+12,P012,Minyak Goreng 1L,16000.0,12
+13,P013,Tepung Terigu 1kg,11000.0,15
+14,P014,Tepung Maizena,6000.0,14
+15,P015,Susu Kental Manis,12000.0,9
+16,P016,Keju Cheddar,23000.0,7
+17,P017,Telur Ayam 1kg,28000.0,11
+18,P018,Roti Tawar,15000.0,13
+19,P019,Selai Coklat,17000.0,8
+20,P020,Mentega,14000.0,10
+21,P021,Mie Telur,9000.0,19
+22,P022,Kecap Manis,13000.0,16
+23,P023,Saus Sambal,12000.0,17
+24,P024,Saus Tomat,11000.0,18
+25,P025,Shampoo Sachet,2000.0,50
+26,P026,Sabun Mandi Batang,4000.0,45
+27,P027,Pasta Gigi,9000.0,21
+28,P028,Sikat Gigi,6000.0,24
+29,P029,Detergen Bubuk,18000.0,14
+30,P030,Pewangi Pakaian,15000.0,13
+31,P031,Tisu Gulung,12000.0,20
+32,P032,Tisu Basah,10000.0,22
+33,P033,Air Mineral 600ml,3500.0,60
+34,P034,Air Mineral 1500ml,6000.0,35
+35,P035,Snack Kentang,9000.0,27
+36,P036,Biskuit Coklat,8000.0,29
+37,P037,Permen Mint,3000.0,40
+38,P038,Coklat Batang,12000.0,16
+39,P039,Sereal Jagung,25000.0,7
+40,P040,Madu Botol Kecil,30000.0,5
+41,P041,Minuman Isotonik,7000.0,23
+42,P042,Es Krim Cup,10000.0,12
+43,P043,Kopi Susu Botol,8000.0,16
+44,P044,Susu UHT Coklat,6500.0,28
+45,P045,Susu UHT Stroberi,6500.0,24
+46,P046,Popcorn Instan,9000.0,15
+47,P047,Kerupuk Udang,7000.0,20
+48,P048,Bawang Goreng,13000.0,9
+49,P049,Sambal Botol,17000.0,11
+50,P050,Teh Celup Kotak,14000.0,18
+51,P0100,Teh Sari,2000.0,69

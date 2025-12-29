@@ -5,6 +5,7 @@ import Models.Sale;
 import Services.ProductService;
 import Services.SalesService;
 
+import java.util.ArrayList;
 import java.util.List;
 
 public class SalesController {
@@ -21,25 +22,34 @@ public class SalesController {
     }
 
     public void saveSale(Product p, int qty) {
+        // 1. Generate ID untuk sale baru
         List<Sale> sales = salesService.loadSales();
-        int id = salesService.generateNextId(sales);
+        int saleId = salesService.generateNextId(sales);
 
-        // kurangi stok
-        p = new Product(
-                p.getId(),
-                p.getKode(),
-                p.getNama(),
-                p.getHarga(),
-                p.getStok() - qty
-        );
+        // 2. Tambahkan transaksi penjualan
+        salesService.addSale(new Sale(saleId, p.getNama(), qty, p.getHarga()));
 
-        Product finalP = p;
-        productService.deleteProduct(
-                productService.loadProducts().stream()
-                        .map(prod -> prod.getId() == finalP.getId() ? finalP : prod)
-                        .toList()
-        );
+        // 3. Update stok produk
+        List<Product> products = productService.loadProducts();
+        List<Product> updatedProducts = new ArrayList<>();
 
-        salesService.addSale(new Sale(id, p.getNama(), qty, p.getHarga()));
+        for (Product product : products) {
+            if (product.getId() == p.getId()) {
+                // Kurangi stok untuk produk yang terjual
+                Product updatedProduct = new Product(
+                        product.getId(),
+                        product.getKode(),
+                        product.getNama(),
+                        product.getHarga(),
+                        product.getStok() - qty
+                );
+                updatedProducts.add(updatedProduct);
+            } else {
+                updatedProducts.add(product);
+            }
+        }
+
+        // 4. Simpan kembali semua produk dengan stok yang sudah diupdate
+        productService.deleteProduct(updatedProducts);
     }
 }
