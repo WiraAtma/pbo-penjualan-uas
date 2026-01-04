@@ -10,6 +10,8 @@ import javax.swing.table.DefaultTableCellRenderer;
 import javax.swing.table.DefaultTableModel;
 import javax.swing.table.TableRowSorter;
 import java.awt.*;
+import java.util.ArrayList;
+import java.util.List;
 
 public class MainGUI {
 
@@ -147,12 +149,27 @@ public class MainGUI {
         productSorter = new TableRowSorter<>(productTableModel);
         table.setRowSorter(productSorter);
 
+        // Improved search functionality - fuzzy search across all columns
         txtSearch.addCaretListener(e -> {
-            String text = txtSearch.getText();
-            if (text.trim().length() == 0) {
+            String text = txtSearch.getText().trim();
+            if (text.length() == 0) {
                 productSorter.setRowFilter(null);
             } else {
-                productSorter.setRowFilter(RowFilter.regexFilter("(?i)" + text));
+                // Create fuzzy search filter
+                productSorter.setRowFilter(new RowFilter<DefaultTableModel, Integer>() {
+                    @Override
+                    public boolean include(Entry<? extends DefaultTableModel, ? extends Integer> entry) {
+                        String searchLower = text.toLowerCase();
+                        // Search across all columns
+                        for (int i = 0; i < entry.getValueCount(); i++) {
+                            String value = entry.getStringValue(i).toLowerCase();
+                            if (value.contains(searchLower)) {
+                                return true;
+                            }
+                        }
+                        return false;
+                    }
+                });
             }
         });
 
@@ -219,12 +236,27 @@ public class MainGUI {
         salesSorter = new TableRowSorter<>(salesTableModel);
         table.setRowSorter(salesSorter);
 
+        // Improved search functionality - fuzzy search across all columns
         txtSearch.addCaretListener(e -> {
-            String text = txtSearch.getText();
-            if (text.trim().length() == 0) {
+            String text = txtSearch.getText().trim();
+            if (text.length() == 0) {
                 salesSorter.setRowFilter(null);
             } else {
-                salesSorter.setRowFilter(RowFilter.regexFilter("(?i)" + text));
+                // Create fuzzy search filter
+                salesSorter.setRowFilter(new RowFilter<DefaultTableModel, Integer>() {
+                    @Override
+                    public boolean include(Entry<? extends DefaultTableModel, ? extends Integer> entry) {
+                        String searchLower = text.toLowerCase();
+                        // Search across all columns
+                        for (int i = 0; i < entry.getValueCount(); i++) {
+                            String value = entry.getStringValue(i).toLowerCase();
+                            if (value.contains(searchLower)) {
+                                return true;
+                            }
+                        }
+                        return false;
+                    }
+                });
             }
         });
 
@@ -339,6 +371,18 @@ public class MainGUI {
         }
     }
 
+    /**
+     * Check if product code already exists
+     */
+    private boolean isProductCodeExists(String kode) {
+        for (Product p : productController.getAllProducts()) {
+            if (p.getKode().equalsIgnoreCase(kode)) {
+                return true;
+            }
+        }
+        return false;
+    }
+
     private void showAddProductDialog() {
         JDialog dialog = new JDialog(frame, "Tambah Produk", true);
         dialog.setSize(420, 280);
@@ -387,24 +431,57 @@ public class MainGUI {
         styleButton(btnCancel, new Color(160, 160, 160));
 
         btnSave.addActionListener(e -> {
-            try {
-                String kode = txtKode.getText().trim();
-                String nama = txtNama.getText().trim();
-                double harga = Double.parseDouble(txtHarga.getText().trim());
-                int stok = Integer.parseInt(txtStok.getText().trim());
+            String kode = txtKode.getText().trim();
+            String nama = txtNama.getText().trim();
+            String hargaStr = txtHarga.getText().trim();
+            String stokStr = txtStok.getText().trim();
 
-                if (kode.isEmpty() || nama.isEmpty()) {
-                    JOptionPane.showMessageDialog(dialog, "Kode dan Nama tidak boleh kosong!");
+            // Collect empty fields
+            List<String> emptyFields = new ArrayList<>();
+            if (kode.isEmpty()) emptyFields.add("Kode");
+            if (nama.isEmpty()) emptyFields.add("Nama");
+            if (hargaStr.isEmpty()) emptyFields.add("Harga");
+            if (stokStr.isEmpty()) emptyFields.add("Stok");
+
+            // Show validation message if there are empty fields
+            if (!emptyFields.isEmpty()) {
+                String message = String.join(", ", emptyFields) + " Harus diisi!";
+                JOptionPane.showMessageDialog(dialog, message, "Validasi", JOptionPane.WARNING_MESSAGE);
+                return;
+            }
+
+            // Check if product code already exists
+            if (isProductCodeExists(kode)) {
+                JOptionPane.showMessageDialog(dialog,
+                        "Kode produk '" + kode + "' sudah ada! Gunakan kode yang berbeda.",
+                        "Kode Duplikat",
+                        JOptionPane.ERROR_MESSAGE);
+                return; // Stay in dialog with existing values
+            }
+
+            // Validate numeric fields
+            try {
+                double harga = Double.parseDouble(hargaStr);
+                int stok = Integer.parseInt(stokStr);
+
+                if (harga <= 0) {
+                    JOptionPane.showMessageDialog(dialog, "Harga harus lebih dari 0!", "Validasi", JOptionPane.WARNING_MESSAGE);
                     return;
                 }
 
+                if (stok < 0) {
+                    JOptionPane.showMessageDialog(dialog, "Stok tidak boleh negatif!", "Validasi", JOptionPane.WARNING_MESSAGE);
+                    return;
+                }
+
+                // Save product
                 productController.addProduct(kode, nama, harga, stok);
                 refreshAll();
                 JOptionPane.showMessageDialog(dialog, "Produk berhasil ditambahkan!");
                 dialog.dispose();
 
             } catch (NumberFormatException ex) {
-                JOptionPane.showMessageDialog(dialog, "Harga dan Stok harus berupa angka!");
+                JOptionPane.showMessageDialog(dialog, "Harga dan Stok harus berupa angka!", "Validasi", JOptionPane.WARNING_MESSAGE);
             }
         });
 
@@ -560,12 +637,27 @@ public class MainGUI {
         TableRowSorter<DefaultTableModel> sorter = new TableRowSorter<>(productDialogModel);
         productTable.setRowSorter(sorter);
 
+        // Improved search functionality - fuzzy search across all columns
         txtSearch.addCaretListener(e -> {
-            String text = txtSearch.getText();
-            if (text.trim().length() == 0) {
+            String text = txtSearch.getText().trim();
+            if (text.length() == 0) {
                 sorter.setRowFilter(null);
             } else {
-                sorter.setRowFilter(RowFilter.regexFilter("(?i)" + text));
+                // Create fuzzy search filter
+                sorter.setRowFilter(new RowFilter<DefaultTableModel, Integer>() {
+                    @Override
+                    public boolean include(Entry<? extends DefaultTableModel, ? extends Integer> entry) {
+                        String searchLower = text.toLowerCase();
+                        // Search across all columns
+                        for (int i = 0; i < entry.getValueCount(); i++) {
+                            String value = entry.getStringValue(i).toLowerCase();
+                            if (value.contains(searchLower)) {
+                                return true;
+                            }
+                        }
+                        return false;
+                    }
+                });
             }
         });
 
@@ -644,19 +736,30 @@ public class MainGUI {
                 return;
             }
 
+            String qtyText = txtQty.getText().trim();
+
+            // Validate Qty - check if empty
+            if (qtyText.isEmpty()) {
+                JOptionPane.showMessageDialog(dialog, "Qty tidak boleh kosong!", "Validasi", JOptionPane.WARNING_MESSAGE);
+                return;
+            }
+
+            // Validate Qty - check if numeric
             try {
-                int qty = Integer.parseInt(txtQty.getText().trim());
+                int qty = Integer.parseInt(qtyText);
                 int modelRow = productTable.convertRowIndexToModel(selectedRow);
                 Product selectedProduct = products.get(modelRow);
 
                 if (qty <= 0) {
-                    JOptionPane.showMessageDialog(dialog, "Jumlah harus lebih dari 0!");
+                    JOptionPane.showMessageDialog(dialog, "Jumlah harus lebih dari 0!", "Validasi", JOptionPane.WARNING_MESSAGE);
                     return;
                 }
 
                 if (qty > selectedProduct.getStok()) {
                     JOptionPane.showMessageDialog(dialog,
-                            "Stok tidak cukup! Tersedia: " + selectedProduct.getStok());
+                            "Stok tidak cukup! Tersedia: " + selectedProduct.getStok(),
+                            "Validasi",
+                            JOptionPane.WARNING_MESSAGE);
                     return;
                 }
 
@@ -675,7 +778,7 @@ public class MainGUI {
                 }
 
             } catch (NumberFormatException ex) {
-                JOptionPane.showMessageDialog(dialog, "Jumlah harus berupa angka!");
+                JOptionPane.showMessageDialog(dialog, "Qty Harus Berupa Nomor!", "Validasi", JOptionPane.WARNING_MESSAGE);
             }
         });
 

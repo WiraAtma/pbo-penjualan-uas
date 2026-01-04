@@ -1,0 +1,11 @@
+<component name="ArtifactManager">
+  <artifact type="jar" name="pbo-penjualan-uas:jar">
+    <output-path>$PROJECT_DIR$/out/artifacts/pbo_penjualan_uas_jar</output-path>
+    <root id="archive" name="pbo-penjualan-uas.jar">
+      <element id="directory" name="META-INF">
+        <element id="file-copy" path="$PROJECT_DIR$/META-INF/MANIFEST.MF" />
+      </element>
+      <element id="module-output" name="pbo-penjualan-uas" />
+    </root>
+  </artifact>
+</component>

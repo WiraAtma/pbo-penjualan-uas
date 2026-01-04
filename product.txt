@@ -1,6 +1,5 @@
 #id,kode,nama,harga,stok
 1,P001,Indomie Goreng,3500.0,30
-2,P002,Indomie Soto,3500.0,25
 3,P003,Indomie Ayam Bawang,3500.0,20
 5,P005,Sosis Kanzler,8000.0,4
 6,P006,Susu Jahe,3000.0,33
@@ -49,3 +48,5 @@
 49,P049,Sambal Botol,17000.0,11
 50,P050,Teh Celup Kotak,14000.0,18
 51,P0100,Teh Sari,2000.0,69
+52,P100,Teh Pucuk,4000.0,12
+53,P002,Ikan Bakar,60000.0,78
